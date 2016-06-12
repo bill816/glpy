@@ -70,8 +70,32 @@ if __name__ == '__main__':
     #| 或意思p开头或j开头(19:00)
     print re.findall(r'p|j[a-zA-Z]+',s)  
     
+    #大写所有的非
+    #\w [a-zA-Z0-9_], \W
+    #\d [0-9],  \D
+    #\s [\t\n\r\f\v], \S  
+    print re.findall(r'p\w+',s)
+    print re.findall(r'p[a-zA-Z0-9_]+',s)
+    
+    # \b word boundary(有没空格空白符）
+    # \B not \b
+    # \A input start,^
+    # \Z input end,$
+    print re.findall(r'\bp[^0-9]',s)
+    
+    #*? 0-inf non-greedy
+    #+? 1-inf non-greedy
+    print re.findall(r'p[a-z]*',s)
+    print re.findall(r'p[a-z]*?',s)
+    print re.findall(r'p[a-z]+\b',s)
+    print re.findall(r'p[a-z]+?\b',s)
     
     
+    #() group
+    a=re.search(r'(p[a-z]+)([0-9])','python2')
+    print a.group(1),a.group(2)
+    
+    #编译选项
     
     
     
