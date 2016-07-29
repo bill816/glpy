@@ -14,6 +14,9 @@ def convertjpg(jpgfile,outdir,width=720,height=1280):
 
     
 for jpgfile in glob.glob("D:/yingshuang_android/*.jpg"):
-    convertjpg(jpgfile,"D:/yingshuang_android/new_file")
+    #convertjpg(jpgfile,"D:/yingshuang_android/new_file")
     print jpgfile
+
+newImg = Image.new("RGBA",(300,300),(255,0,255))
+newImg.show()
     
