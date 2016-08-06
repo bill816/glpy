@@ -1,6 +1,8 @@
 from PIL import Image
 import os.path
 import glob
+
+
 def convertjpg(jpgfile,outdir,width=720,height=1280):
     img=Image.open(jpgfile)   
     newImg = Image.new("RGBA",(width,height),(255,255,255))
