@@ -24,8 +24,13 @@ __mail_ham_map = {}
 
 HAM_PATH = 'D:/workspace/git_project/email/train/ham/*.txt'
 SPAM_PATH = 'D:/workspace/git_project/email/train/spam/*.txt'
+HAM_TEST_PATH = 'D:/workspace/git_project/email/test/ham/*.txt'
+SPAM_TEST_PATH = 'D:/workspace/git_project/email/test/spam/*.txt'
+
+
 HAM_RESULT_PATH = "ham_result.pkl"
 SPAM_RESULT_PATH = "SPAM_result.pkl"
+TOTAL_OF_WORD = "total_of_word"
 
 #把单词回到map里面去
 def add_to_map(map,word):
@@ -34,9 +39,9 @@ def add_to_map(map,word):
     except KeyError:
        map[word] = 1
     try:
-       map['total_of_word'] = map['total_of_word'] + 1
+       map[TOTAL_OF_WORD] = map[TOTAL_OF_WORD] + 1
     except KeyError:
-      map['total_of_word'] = 1
+      map[TOTAL_OF_WORD] = 1
 
 #对一行进行切割保存到map
 def split_word(map,str):
@@ -50,8 +55,8 @@ def split_word(map,str):
 def read_from_file(path,map):
     #从文件里读取内容保存到map
     for mail_file in glob.glob(path):
+        f = open(mail_file,'r')
         for line in open(mail_file):  
-            f = open(mail_file,'r')
             line = f.readline()
             split_word(map,line)  
 
@@ -74,15 +79,61 @@ def start_train():
     read_from_file(SPAM_PATH,__mail_spam_map)
     save_train_to_file(SPAM_RESULT_PATH,__mail_spam_map)
     print __mail_spam_map
-#def start_test():
     
+    
+def test_a_file(path):
+    test_map={}
+    f = open(path,'r')
+    for line in open(path):  
+        line = f.readline()
+        split_word(test_map,line)
+    return test_map
+        
+def start_test(path):
+    
+    #p(y|x)=p(x|y)*p(y)/p(x)
+    #y垃圾邮件 x某个单词
+    #p(y|x)：  当y邮件出现了x单词，这个邮件y是垃圾邮件的概率
+    #p(x|y): 当y为垃圾邮件时，x单词出现的概率
+    #p(y)为50%
+    #p(x)=
+    
+    __mail_spam_map = read_train_from_file(SPAM_RESULT_PATH)
+    __mail_ham_map = read_train_from_file(HAM_RESULT_PATH)
+    print __mail_spam_map
+    print __mail_ham_map
+    
+    #从文件里读取内容保存到map
+    for mail_file in glob.glob(path):
+        #print mail_file
+        test_map = test_a_file(mail_file)
+        #print test_map
+        for item in test_map:
+            spam_count=0
+            ham_count=0
+            
+            try:
+                spam_count = __mail_spam_map[item]
+            except KeyError:
+                spam_count = 0
+            try:
+                ham_count = __mail_ham_map[item]
+            except KeyError:
+                ham_count = 0
+                   
+            item_count = spam_count + ham_count
+            px = 0.0
+            if item_count > 0:
+                word_count = __mail_spam_map[TOTAL_OF_WORD] + __mail_ham_map[TOTAL_OF_WORD]
+                #print item
+                #print item_count
+                #print word_count
+                px =float(float(item_count)/float(word_count))
+            print px
+        break
+        
 
 if __name__ == '__main__':
-    #read_from_file(HAM_PATH,__mail_ham_map)
-    #print __mail_ham_map
-    #save_train_to_file("result.pkl",__mail_ham_map)
-    #obj = read_train_from_file("result.pkl")
-    #print obj['spoke']
-    start_train()
-    
+    #start_train()
+    start_test(SPAM_TEST_PATH)
 
