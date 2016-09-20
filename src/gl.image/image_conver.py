@@ -26,13 +26,24 @@ def getSplitImage(jpgfile,outdir):
     gapX = 3
     gapY = 9
     '''
-    '''720P'''
+    
+    '''XGD 720P
     startX = 3
     startY = 540
     width= 233
     height = 144
     gapX = 6
     gapY = 4
+    '''
+    
+    '''yinshuang 720P'''
+    startX = 3
+    startY = 722
+    width= 176  
+    height = 133 
+    gapX = 3
+    gapY = 7
+    
     
     for i in range(0, 15):
         startX1 = startX+(width*(i%3)) + gapX*(i%3)
@@ -78,7 +89,12 @@ def  generateBigPic(imagePath):
         print jpgfile
 
 if __name__ == '__main__':
-    getSplitImage("D:/work/n5/PCI/shouying_720.jpg","D:/images")
+    
+    
+    #yinshuang
+    getSplitImage("D:/work/n5/yingshuang.png","D:/images") 
+    
+#    getSplitImage("D:/work/n5/PCI/shouying_720.jpg","D:/images") XGD
     #generateBigPic("D:/images/*.png")
     #convertjpg3("D:/work/n5/PCI/images/cancel.png","D:/work/n5/PCI/images_change",(238,69,47))
     #convertjpg3("D:/work/n5/PCI/images/clear.png","D:/work/n5/PCI/images_change",(255,185,0))
