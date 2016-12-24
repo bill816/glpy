@@ -2,7 +2,8 @@
 from PIL import Image
 import os.path
 import glob
-
+from PIL import ImageDraw
+from PIL import ImageFont
 
 def convertjpg(jpgfile,outdir,width=720,height=1280):
     img=Image.open(jpgfile)   
@@ -70,17 +71,36 @@ def convertjpg2(jpgfile,outdir,width=720,height=1280,oldWidth=157,oldHeight=90):
     newImg.save(os.path.join(outdir,os.path.basename(jpgfile)))
 
 
-def convertjpg3(jpgfile,outdir,rgb=(0,0,0),width=233,height=144,oldWidth=112,oldHeight=95):
+def convertjpg3(jpgfile,outdir,rgb=(0,0,0),width=233,height=144,oldWidth=112,oldHeight=95,num=0):
     '''
             把一张图片贴到另外一个背景上
     '''
     img=Image.open(jpgfile)
     newImg = Image.new("RGBA",(width,height),rgb)
-    box=(0,0,oldWidth,oldHeight)
-    region = img.crop(box)
+    #box=(0,0,oldWidth,oldHeight)
+    #region = img.crop(box)
+    
+    #p = Image.new('RGBA', im.size, (255,255,255))
+#    p.paste(img, (0, 0, x, y), img)
+  
     box2=((width-oldWidth)/2,(height-oldHeight)/2,oldWidth+(width-oldWidth)/2,oldHeight+(height-oldHeight)/2)
-    newImg.paste(region,box2)
+    #newImg.paste(region,box2)
+    newImg.paste(img, box2, img)
+     
     newImg.save(os.path.join(outdir,os.path.basename(jpgfile)))
+    
+
+def drawText(jpgfile,outdir,num):
+    '''
+            在图片左上角增加文字 
+    '''
+    img=Image.open(jpgfile)
+    font = ImageFont.truetype("d:/DroidSans.ttf",30)
+    draw = ImageDraw.Draw(img)
+#    draw.draw
+#    print num
+    draw.text((0, 0),str(num),(255,255,0),font=font)
+    img.save(os.path.join(outdir,os.path.basename(jpgfile)))
     
     
 def  generateBigPic(imagePath):
@@ -92,18 +112,20 @@ if __name__ == '__main__':
     
     
     #yinshuang
-    getSplitImage("D:/work/n5/yingshuang.png","D:/images") 
+    #getSplitImage("D:/work/n5/yingshuang.png","D:/images") 
     
 #    getSplitImage("D:/work/n5/PCI/shouying_720.jpg","D:/images") XGD
     #generateBigPic("D:/images/*.png")
     #convertjpg3("D:/work/n5/PCI/images/cancel.png","D:/work/n5/PCI/images_change",(238,69,47))
     #convertjpg3("D:/work/n5/PCI/images/clear.png","D:/work/n5/PCI/images_change",(255,185,0))
     #convertjpg3("D:/work/n5/PCI/images/sure.png","D:/work/n5/PCI/images_change",(56,192,51))
-    
-    #for jpgfile in glob.glob("D:/yingshuang_android/*.jpg"):
-    #convertjpg(jpgfile,"D:/yingshuang_android/new_file")
-    #print jpgfile
-    print "finished!"
+    i=0
+    for jpgfile in glob.glob("D:\images\poweroff\*.png"):
+        print jpgfile
+        convertjpg3(jpgfile,"D:/images",(0,0,0),720,1280,640,480,i)
+#        drawText(jpgfile,"D:/images",i)
+        i = i +1
+        print "finished!" + str(i)
     
 
 
