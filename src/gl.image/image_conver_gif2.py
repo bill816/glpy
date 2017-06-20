@@ -84,7 +84,7 @@ def processImage(path):
                 new_frame.paste(last_frame)  
               
             new_frame.paste(im, (0,0), im.convert('RGBA'))  
-            new_frame.save('%s-%d.png' % (''.join(os.path.basename(path).split('.')[:-1]), i), 'PNG')  
+            new_frame.save('%s-%03d.png' % (''.join(os.path.basename(path).split('.')[:-1]), i), 'PNG')  
    
             i += 1  
             last_frame = new_frame  
@@ -94,9 +94,9 @@ def processImage(path):
    
    
 def main():  
-    processImage('source.gif')  
+    processImage('huaxia.gif')  
       
    
 if __name__ == "__main__":  
-    #测试OK，可以正常使用 ---- guoxiao  20170421 
+    #test ok---- guoxiao  20170421 
     main()  

@@ -108,6 +108,11 @@ def  generateBigPic(imagePath):
         convertjpg2(jpgfile,"D:/work/n5/PCI/images_change",233,144)
         print jpgfile
 
+def resizePic(jpgfile,outdir,width=720,height=1280):
+    img=Image.open(jpgfile)
+    newImg = img.resize((width,height),Image.BILINEAR)
+    newImg.save(os.path.join(outdir,os.path.basename(jpgfile)))
+
 if __name__ == '__main__':
     
     
@@ -120,9 +125,11 @@ if __name__ == '__main__':
     #convertjpg3("D:/work/n5/PCI/images/clear.png","D:/work/n5/PCI/images_change",(255,185,0))
     #convertjpg3("D:/work/n5/PCI/images/sure.png","D:/work/n5/PCI/images_change",(56,192,51))
     i=0
-    for jpgfile in glob.glob("D:\images\poweroff\*.png"):
+#    for jpgfile in glob.glob("D:\images\poweroff\*.png"):
+    for jpgfile in glob.glob("./huaxia/*.png"):
         print jpgfile
-        convertjpg3(jpgfile,"D:/images",(0,0,0),720,1280,640,480,i)
+        resizePic(jpgfile,"D:/images")
+#        convertjpg3(jpgfile,"D:/images",(0,0,0),720,1280,640,480,i)
 #        drawText(jpgfile,"D:/images",i)
         i = i +1
         print "finished!" + str(i)
